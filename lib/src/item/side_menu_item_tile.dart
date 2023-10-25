@@ -101,8 +101,9 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
           offset: 15,
           elevation: 0,
           borderRadius: BorderRadius.circular(4),
-          backgroundColor: widget.data.titleStyle?.backgroundColor ??
-              Theme.of(context).colorScheme.surface,
+          backgroundColor: widget.data.titleStyle?.backgroundColor != null
+              ? widget.data.titleStyle?.backgroundColor?.withOpacity(0.9)
+              : Theme.of(context).colorScheme.surface.withOpacity(0.9),
           content: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
