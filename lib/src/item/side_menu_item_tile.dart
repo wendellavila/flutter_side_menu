@@ -101,19 +101,12 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
           offset: 15,
           elevation: 0,
           borderRadius: BorderRadius.circular(4),
-          backgroundColor:
-              MediaQuery.of(context).platformBrightness == Brightness.light
-                  ? Colors.grey[700]!.withOpacity(0.9)
-                  : Colors.white.withOpacity(0.9),
+          backgroundColor: Theme.of(context).colorScheme.surface,
           content: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
               widget.data.tooltip!,
-              style: TextStyle(
-                  color: MediaQuery.of(context).platformBrightness ==
-                          Brightness.light
-                      ? Colors.white
-                      : Colors.black),
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
             ),
           ),
           child: child,
