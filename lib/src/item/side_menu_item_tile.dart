@@ -3,6 +3,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_side_menu/src/data/side_menu_item_data.dart';
 import 'package:flutter_side_menu/src/utils/constants.dart';
+import 'package:just_the_tooltip/just_the_tooltip.dart';
 
 class SideMenuItemTile extends StatefulWidget {
   const SideMenuItemTile({
@@ -55,8 +56,10 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
 
   Color getSelectedColor() {
     return widget.data.isSelected
-        ? widget.data.selectedTitleStyle?.color  ?? Theme.of(context).colorScheme.onSecondaryContainer
-        : widget.data.titleStyle?.color ?? Theme.of(context).colorScheme.onSurfaceVariant;
+        ? widget.data.selectedTitleStyle?.color ??
+            Theme.of(context).colorScheme.onSecondaryContainer
+        : widget.data.titleStyle?.color ??
+            Theme.of(context).colorScheme.onSurfaceVariant;
   }
 
   Widget? getSelectedIcon() {
@@ -85,10 +88,37 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
     required Widget child,
   }) {
     if (widget.data.tooltip != null) {
-      return Tooltip(
-        message: widget.data.tooltip,
-        child: child,
-      );
+      if (widget.isOpen) {
+        return Tooltip(
+          message: widget.data.tooltip,
+          child: child,
+        );
+      } else {
+        return JustTheTooltip(
+          preferredDirection: AxisDirection.right,
+          tailBaseWidth: 0,
+          tailLength: 0,
+          offset: 15,
+          elevation: 0,
+          borderRadius: BorderRadius.circular(4),
+          backgroundColor:
+              MediaQuery.of(context).platformBrightness == Brightness.light
+                  ? Colors.grey[700]!.withOpacity(0.9)
+                  : Colors.white.withOpacity(0.9),
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              widget.data.tooltip!,
+              style: TextStyle(
+                  color: MediaQuery.of(context).platformBrightness ==
+                          Brightness.light
+                      ? Colors.white
+                      : Colors.black),
+            ),
+          ),
+          child: child,
+        );
+      }
     }
     return child;
   }

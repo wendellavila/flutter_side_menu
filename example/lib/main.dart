@@ -13,8 +13,43 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _controller = SideMenuController();
   int _currentIndex = 0;
+  final List<String> _title = [
+    "Item 1",
+    "Item 2",
+    "Item 3",
+    "Item 4",
+    "Item 5"
+  ];
+
+  SideMenuItemDataTile _sideMenuItem(int index, bool isMenuOpen) {
+    return SideMenuItemDataTile(
+      isSelected: _currentIndex == index,
+      title: _title[index],
+      //tooltip: isMenuOpen ? null : _title[index],
+      tooltip: _title[index],
+      titleStyle: TextStyle(
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
+      selectedTitleStyle: TextStyle(
+        color: Theme.of(context).colorScheme.onPrimary,
+      ),
+      icon: Icon(
+        Icons.info,
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
+      selectedIcon: Icon(
+        Icons.info,
+        color: Theme.of(context).colorScheme.onPrimary,
+      ),
+      highlightSelectedColor: Theme.of(context).colorScheme.primary,
+      onTap: () {
+        setState(() {
+          _currentIndex = index;
+        });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,96 +58,31 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Row(
-          children: [
-            SideMenu(
-              controller: _controller,
-              backgroundColor: Colors.blueGrey,
-              mode: SideMenuMode.open,
-              builder: (data) {
-                return SideMenuData(
-                  header: const Text('Header'),
-                  items: [
-                    const SideMenuItemDataTitle(
-                      title: 'Section Header'
-                    ),
-                    SideMenuItemDataTile(
-                      isSelected: _currentIndex == 0,
-                      onTap: () => setState(() => _currentIndex = 0),
-                      title: 'Item 1',
-                      hoverColor: Colors.blue,
-                      titleStyle: const TextStyle(color: Colors.white),
-                      icon: const Icon(Icons.home_outlined),
-                      selectedIcon: const Icon(Icons.home),
-                      badgeContent: const Text(
-                        '23',
-                        style: TextStyle(
-                          fontSize: 8,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SideMenuItemDataTile(
-                      isSelected: _currentIndex == 1,
-                      onTap: () => setState(() => _currentIndex = 1),
-                      title: 'Item 2',
-                      selectedTitleStyle:
-                          const TextStyle(fontWeight: FontWeight.w700,color: Colors.yellow),
-                      icon: const Icon(Icons.table_bar_outlined),
-                      selectedIcon: const Icon(Icons.table_bar),
-                      titleStyle: const TextStyle(color: Colors.deepPurpleAccent),
-                    ),
-                    const SideMenuItemDataTitle(
-                      title: 'Account',
-                      textAlign: TextAlign.center,
-                    ),
-                    SideMenuItemDataTile(
-                      isSelected: _currentIndex == 2,
-                      onTap: () => setState(() => _currentIndex = 2),
-                      title: 'Item 3',
-                      icon: const Icon(Icons.play_arrow),
-                    ),
-                    SideMenuItemDataTile(
-                      isSelected: _currentIndex == 3,
-                      onTap: () => setState(() => _currentIndex = 3),
-                      title: 'Item 4',
-                      icon: const Icon(Icons.car_crash),
-                    ),
-                  ],
-                  footer: const Text('Footer'),
-                );
-              },
-            ),
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'body',
-                      style: Theme.of(context).textTheme.displaySmall,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        _controller.toggle();
-                      },
-                      child: const Text('change side menu state'),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            SideMenu(
-              position: SideMenuPosition.right,
-              builder: (data) => const SideMenuData(
-                customChild: Text('custom view'),
-              ),
-            ),
-          ],
+        body: Container(
+          decoration: const BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                offset: Offset(0.0, 1.0), //(x,y)
+                blurRadius: 1.0,
+              )
+            ],
+          ),
+          child: SideMenu(
+            mode: SideMenuMode.auto,
+            hasResizer: true,
+            hasResizerToggle: true,
+            builder: (data) {
+              return SideMenuData(
+                items: [
+                  for (int i = 0; i < 5; i++) _sideMenuItem(i, data.isOpen)
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
