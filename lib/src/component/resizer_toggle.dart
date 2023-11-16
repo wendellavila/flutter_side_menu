@@ -45,11 +45,10 @@ class _ResizerToggleState extends State<ResizerToggle> {
                     ? 6
                     : 12,
             child: Card(
+              color: widget.data.backgroundColor,
               margin: EdgeInsets.zero,
               child: Icon(
-                Utils.isRTL(context)
-                    ? Icons.keyboard_arrow_left_outlined
-                    : Icons.keyboard_arrow_right_outlined,
+                Utils.isRTL(context) ? Icons.keyboard_arrow_left_outlined : Icons.keyboard_arrow_right_outlined,
                 color: widget.data.iconColor,
                 size: widget.data.iconSize,
               ),

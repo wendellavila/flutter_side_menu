@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class ResizerToggleData {
   const ResizerToggleData({
     this.iconColor = Colors.black,
+    this.backgroundColor = Colors.white,
     this.topPosition = 20,
     this.opacity = 0.3,
     this.iconSize = 20,
@@ -11,5 +12,6 @@ class ResizerToggleData {
         assert(iconSize >= 0.0);
 
   final Color iconColor;
+  final Color backgroundColor;
   final double topPosition, opacity, iconSize;
 }
